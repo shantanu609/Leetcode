@@ -1,9 +1,36 @@
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
-        temp = []
+        count = 0
         n = len(matrix)
-        for i in range(n):
-            for j in range(n):
-                temp.append(matrix[i][j])
-        temp.sort()
-        return temp[k-1]
+        low = matrix[0][0]
+        high = matrix[n-1][n-1]
+        
+        while low < high:
+            
+            mid = (high + low) // 2 
+            
+            totalCount = self.getCount(matrix, mid)
+            
+            if totalCount < k:
+                low = mid + 1
+            
+            else:
+                high = mid 
+        
+        return low 
+    
+    def getCount(self, matrix, mid):
+        length = len(matrix)-1 
+        count = 0 
+        
+        for i in range(len(matrix)):
+            
+            j = length 
+            
+            while j >= 0 and matrix[i][j] > mid:
+                j -= 1 
+            
+            count += j+1 
+            
+        return count 
+            
