@@ -7,10 +7,10 @@ class Solution:
         
         for ch in instructions:
             if ch == 'L':
-                direction = (direction + 3) % 4 
+                direction = (direction + len(dirs) -1 ) % 4 
             
             elif ch == 'R':
-                direction = (direction + 1) % 4 
+                direction = (direction + 1 ) % 4 
             
             elif ch == 'G':
                 x += dirs[direction][0]
