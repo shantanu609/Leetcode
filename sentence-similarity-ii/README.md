@@ -1,3 +1,4 @@
+[Discussion Post (created on 10/3/2021 at 21:10)](https://leetcode.com/problems/sentence-similarity-ii/solution/)  
 <h2>737. Sentence Similarity II</h2><h3>Medium</h3><hr><div><p>Given two sentences <code>words1, words2</code> (each represented as an array of strings), and a list of similar word pairs <code>pairs</code>, determine if two sentences are similar.</p>
 
 <p>For example, <code>words1 = ["great", "acting", "skills"]</code> and <code>words2 = ["fine", "drama", "talent"]</code> are similar, if the similar word pairs are <code>pairs = [["great", "good"], ["fine", "good"], ["acting","drama"], ["skills","talent"]]</code>.</p>
