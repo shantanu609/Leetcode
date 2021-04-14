@@ -6,22 +6,16 @@
 #         self.right = None
 
 class Solution:
-    res = None 
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
-        self.res = [] 
-        self.helper(root)
-        for i in range(len(self.res)):
-            node = self.res[i]
-            if node == p:
-                if i+1 < len(self.res):
-                    return self.res[i+1]
-                else:
-                    break 
+        succ = None 
+        node = root 
         
-        return None 
-    
-    def helper(self, root):
-        if root:
-            self.helper(root.left)
-            self.res.append(root)
-            self.helper(root.right)
+        while node :
+            if node.val > p.val:
+                succ = node 
+                node = node.left 
+            else:
+                node = node.right 
+            
+        
+        return succ
