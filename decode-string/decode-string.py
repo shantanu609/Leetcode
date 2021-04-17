@@ -1,30 +1,21 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        """
-                "3 [ a 2 [ c ] ]"
-                 i
-        """
-        if len(s) == 0:
-            return ''
-        
         stack = [["", 1]]
         num = 0 
         
         for i in range(len(s)):
-            ch = s[i]
+            if s[i].isdigit():
+                num = num * 10 + int(s[i])
             
-            if ch.isdigit():
-                num = num * 10 + int(ch)
-            
-            elif ch == '[':
+            elif s[i] == '[':
                 stack.append(["", num])
                 num = 0 
             
-            elif ch.isalpha():
-                stack[-1][0] += ch 
+            elif s[i].isalpha():
+                stack[-1][0] += s[i]
             
-            elif ch == ']':
-                curr = stack.pop()
-                stack[-1][0] += curr[0] * curr[1]
-    
+            elif s[i] ==']':
+                string, count = stack.pop()
+                stack[-1][0] += string * count
+        
         return stack[0][0]
