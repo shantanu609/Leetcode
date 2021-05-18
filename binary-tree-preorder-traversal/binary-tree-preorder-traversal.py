@@ -4,16 +4,21 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
-    res = None 
     def preorderTraversal(self, root: TreeNode) -> List[int]:
-        self.res = []
-        self.helper(root)
-        return self.res
-    
-    def helper(self, node):
-        if node:
-            self.res.append(node.val)
-            self.helper(node.left)
-            self.helper(node.right)
+        res = []
+        stack = [] 
+        node = root 
+        
+        while node or stack:
+            if node:
+                res.append(node.val)
+                stack.append(node)
+                node = node.left 
             
+            elif stack:
+                node = stack.pop()
+                node = node.right 
+            
+        return res
