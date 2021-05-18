@@ -5,16 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    res = None 
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        self.res = []
-        self.helper(root)
-        return self.res
-
-    def helper(self, node):
+        res = [] 
+        stack = [] 
+        node = root
+        while node or stack:
+            while node:
+                stack.append(node)
+                node = node.left 
+            
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right 
         
-        if node:
-            self.helper(node.left)
-            self.res.append(node.val)
-            self.helper(node.right)
-        
+        return res
+    
+"""
+    inorder = [left root right]
+    preorder = [root left right]
+    postorder = [left right root]
+"""
