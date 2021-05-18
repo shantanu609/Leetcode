@@ -5,14 +5,13 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    res = None 
     def postorderTraversal(self, root: TreeNode) -> List[int]:
-        self.res = []
-        self.helper(root)
-        return self.res
+        res = [] 
+        self._helper(root, res)
+        return res 
     
-    def helper(self, node):
-        if node:
-            self.helper(node.left)
-            self.helper(node.right)
-            self.res.append(node.val)
+    def _helper(self, root, output):
+        if root:
+            self._helper(root.left, output)
+            self._helper(root.right, output)
+            output.append(root.val)
