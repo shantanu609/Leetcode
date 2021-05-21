@@ -3,36 +3,22 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-
-import heapq # min
+import heapq
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        """
-            lists = [[1,4,5],[1,3,4],[2,6]]
-            
-            
-            heap = [ (4, 0, (5)), (3, 1, (4)) , (2, 2, (6))  ]
-            
-            dummy -> Node(1) -> Node(1) -> 
-        """
         pq = [] 
-        
-        
+        dummy = ListNode(-1)
+        node = dummy
         for i in range(len(lists)):
             if lists[i]:
-                heapq.heappush(pq, (lists[i].val, i, lists[i].next))
-        
-        dummy = ListNode(-1)
-        curr = dummy
+                heapq.heappush(pq, (lists[i].val, i, lists[i]))
         
         while pq:
-            val, index, node = heapq.heappop(pq)
-            curr.next = ListNode(val)
-            curr = curr.next 
-            
-            if node:
-                heapq.heappush(pq, (node.val, index, node.next))
+            val, index, curr = heapq.heappop(pq)
+            node.next = curr
+            node = node.next 
+            curr = curr.next
+            if curr:
+                heapq.heappush(pq, (curr.val, index, curr))
         
         return dummy.next
-            
-        
