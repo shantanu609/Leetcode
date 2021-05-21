@@ -1,26 +1,22 @@
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        if len(nums) == 1:
-            return nums[0]
-        
-        start, end = 0 , 0 
-        result = nums[0]
+        startIndx, endIndx = 0, 0 
+        i, j = 0, 1
+        maxSum = nums[0]
         rSum = nums[0]
         
-        # loop from 1 till the end 
-        for i in range(1, len(nums)):
+        while j < len(nums):            # expanding the window for maximum sum 
+            rSum = rSum + nums[j]
             
-            # check for the running sum for new nums[i]
-            if nums[i] > rSum + nums[i]:
-                start = i 
-            rSum = max(rSum + nums[i], nums[i])
+            # check if we have a maxSum 
+            maxSum = max(maxSum, nums[j], rSum)
             
-            # update the result to store the maximum running sum 
-            if rSum > result:
-                end = i 
-            result = max(result, rSum)
+            # check for ith pointer, if it should be incremented or not. 
+            if nums[j] > rSum:
+                i = j 
+                rSum = nums[j]
+            
+            j += 1 
         
-        print(start, end)
-        print(nums[start: end+1])
+        return maxSum
         
-        return result 
