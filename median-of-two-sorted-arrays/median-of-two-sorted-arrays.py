@@ -1,68 +1,63 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        """       
+                1 2 3  4 |      num1 x
+                
+                | 5 6  7  8       num2 y
+                 
+                xmax = 1  xmin = 2
+                ymax = 7  ymin = 8
+                    
+                if xmax <= ymin and ymax <= xmin:
+        """
+       
+        if len(nums2) < len(nums1):
+            return self.findMedianSortedArrays(nums2, nums1)
+        
         n1 = len(nums1)
         n2 = len(nums2)
         
-        if n1 > n2:
-            return self.findMedianSortedArrays(nums2, nums1)
-    
-        left, right = 0, n1 
-        """
-                x1. x2
-                2 | 3 
-                4 | 5
-                y1. y2
-        """
+        left, right = 0, len(nums1)
         while left <= right:
-            
-            xPart = (right + left) // 2 
+            xPart = (left + right) // 2 
             yPart = (n1 + n2 + 1) // 2 - xPart 
-            
-            # check for each partition x1 x2 y1 y2 values 
-            x1, x2, y1, y2 = 0, 0, 0, 0
-            
+
+            xmax, xmin, ymax, ymin = 0, 0, 0, 0
+
             if xPart == 0:
-                x1 = float('-inf')
+                xmax = float('-inf')
             else:
-                x1 = nums1[xPart - 1]
-            
-            if xPart == n1:
-                x2 = float('inf')
+                xmax = nums1[xPart - 1]
+
+            if xPart == len(nums1):
+                xmin = float('inf')
             else:
-                x2 = nums1[xPart]
-            
+                xmin = nums1[xPart]
+
             if yPart == 0:
-                y1 = float('-inf')
+                ymax = float('-inf')
             else:
-                y1 = nums2[yPart - 1]
-            
-            if yPart == n2:
-                y2 = float('inf')
+                ymax = nums2[yPart - 1]
+
+            if yPart == len(nums2):
+                ymin = float('inf')
             else:
-                y2 = nums2[yPart]
-            
-            
-            print(x1,x2,y1,y2)
-            
-            # check if both the partitions are valid 
-            if x1 <= y2 and y1 <= x2: 
-                # found median 
-                # if even
+                ymin = nums2[yPart]
+        
+            if xmax <= ymin and ymax <= xmin:
+                # check for even condition 
                 if (n1 + n2) % 2 == 0:
-                    a = max(x1, y1)
-                    b = min(x2, y2)
-                    return (a+b) / 2 
-                
-                # if odd
+                    x = max(xmax, ymax)
+                    y = min(xmin, ymin)
+                    return (x + y) / 2
+            
                 else:
-                    return max(x1, y1)
-            
-            elif x1 > y2 :
+                    # odd 
+                    return max(xmax, ymax)
+        
+            elif xmax > ymin:
                 right = xPart - 1 
-            
             else:
                 left = xPart + 1 
         
-        raise "Value Error"
-                
-            
+        
