@@ -4,24 +4,32 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
         if not root:
             return None
         
-        if root:
+        stack = [] 
+        node = root 
+        
+        while node or stack:
+            while node: 
+                node.left, node.right = node.right, node.left 
+                stack.append(node)
+                node = node.left 
             
-            # invert the current root node
-            root.left, root.right = root.right, root.left 
+            curr = stack.pop()
+#             if curr.right:
+#                 stack.append(curr)
             
-            # recurse on the left subtree 
-            if root.left:
-                self.invertTree(root.left)
-            
-            # recurse on the right subtree
-            if root.right:
-                self.invertTree(root.right)
+            node = curr.right
         
         return root
+    
+# Time = O(n)
+# Space = O(n)
+            
+        
         
        
