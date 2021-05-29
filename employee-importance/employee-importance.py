@@ -8,26 +8,22 @@ class Employee:
 """
 
 class Solution:
-    count = None
     def getImportance(self, employees: List['Employee'], id: int) -> int:
-        visited = set()
-        self.count = 0
-        ds = {}
-        for i in range(len(employees)):
-            if employees[i].id not in ds:
-                ds[employees[i].id] = [employees[i].importance, employees[i].subordinates]
-                
-        self._dfs(ds, id, visited)
-        return self.count
+        d = {} 
+        for e in employees:
+            d[e.id] = e 
+        
+        self.total = 0 
+        self.recurse(id, d)
+        return self.total 
     
-    def _dfs(self, ds, targetID, visited):
+    def recurse(self, targetId, d): 
         # base case 
         
-        
         # logic 
-        self.count += ds[targetID][0]
-        visited.add(targetID)
-        for nextId in ds[targetID][1]:
-            self._dfs(ds, nextId, visited)
+        emp = d[targetId]
+        self.total += emp.importance
+        for sub in emp.subordinates:
+            self.recurse(sub, d)
         
         
