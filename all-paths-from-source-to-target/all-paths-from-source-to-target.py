@@ -1,3 +1,6 @@
+# Time = O(V x E)
+# Space = O(V x E)
+
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
         d = {i : set() for i in range(len(graph))} 
@@ -11,6 +14,7 @@ class Solution:
         self.dfs(d, 0, len(graph)-1, visited, [0])
         return self.res 
     
+    # @lru_cache(maxsize = None)
     def dfs(self, graph, source, dest, visited, temp):
         # base case 
         if source == dest: 
@@ -20,15 +24,16 @@ class Solution:
         # logic 
         if source in graph: 
             for node in graph[source]:
-                visited.add(node)
-                temp.append(node)
-                
-                # recurse 
-                self.dfs(graph, node, dest, visited, temp)
-                
-                # backtrack 
-                visited.remove(node)
-                temp.pop() 
-        
+                if node not in visited:
+                    visited.add(node)
+                    temp.append(node)
+
+                    # recurse 
+                    self.dfs(graph, node, dest, visited, temp)
+
+                    # backtrack 
+                    visited.remove(node)
+                    temp.pop() 
+
         
         
