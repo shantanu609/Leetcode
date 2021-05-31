@@ -1,38 +1,39 @@
 from collections import deque
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        if len(prerequisites) == 0:
-            return [i for i in range(numCourses)]
+        # data structures needed 
+        graph = {i : set() for i in range(numCourses)}
+        result = [] 
+        indegree = [0] * numCourses
+        q = deque() 
         
-        d = {}
-        indegree = [0 for _ in range(numCourses)]
-        for pair in prerequisites:
-            c1, c2 = pair 
-            indegree[c1] += 1 
-            
-            if c2 not in d:
-                d[c2] = [] 
-            
-            d[c2].append(c1)
+        for nextCourse, prevCourse in prerequisites:
+            graph[prevCourse].add(nextCourse)
+            indegree[nextCourse] += 1 
         
-        q = deque()
-        for node in range(len(indegree)):
-            if indegree[node] == 0:
+        # skim through the indegree array to see if we have parent nodes with 0 indegree
+        # for our topological sort 
+        for node in range(numCourses):
+            if indegree[node] == 0: 
                 q.append(node)
-            
-        res = []         
-        while q:
-            curr = q.popleft()
-            res.append(curr)
-            
-            if curr in d:
-                for neigh in d[curr]:
-                    indegree[neigh] -= 1 
-                    
-                    if indegree[neigh] == 0:
-                        q.append(neigh)
         
-        for degree in indegree:
-            if degree > 0:
+        
+        # BFS approach to traverse level by level and fill in the result array 
+        while q: 
+            curr = q.popleft() 
+            # add curr to result as our path in taking courses 
+            result.append(curr)
+            
+            # check for its neighbouring nodes for next level order traversal
+            for node in graph[curr]:
+                indegree[node] -=1 
+                
+                if indegree[node] == 0:
+                    q.append(node)
+        
+        # before returning result, check if we dont have any cycles? 
+        for node in range(numCourses):
+            if indegree[node] > 0:
                 return [] 
-        return res
+        
+        return result
