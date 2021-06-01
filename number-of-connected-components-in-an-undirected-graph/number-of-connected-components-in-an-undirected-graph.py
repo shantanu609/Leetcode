@@ -1,43 +1,35 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        visited = [0] * n 
-        count = 0
+        graph = {} 
         
-        """
-            0: {1}
-            1 : {0, 2}
-            2 : {1}
-            3: {4}
-            4 : {3}
-        """
-        d = {} 
-        for edge in edges:
-            one, two = edge 
-            if one not in d:
-                d[one] = [] 
+        for a, b in edges:
+            if a not in graph:
+                graph[a] = set()
             
-            d[one].append(two)
+            if b not in graph:
+                graph[b] = set() 
             
-            if two not in d:
-                d[two] = [] 
+            graph[a].add(b)
+            graph[b].add(a)
             
-            d[two].append(one)
-        
-        for i in range(n):
-            if i not in d:
-                d[i] = []
-        
-        visited = [0] * n 
-        for node, edgesList in d.items():
-            if visited[node] == 0:
-                visited[node] = 1 
-                self.dfs(visited, edgesList, d)
+        count = 0 
+        visited = set() 
+        for node in range(n):
+            if node not in visited: 
                 count += 1 
+                self.dfs(graph, node, visited)
         
         return count 
     
-    def dfs(self, visited, edgesList, d):
-        for node in edgesList:
-            if visited[node] == 0 :
-                visited[node] = 1 
-                self.dfs(visited, d[node], d)
+    def dfs(self, graph, source, visited):
+        # base case 
+        if source in visited:
+            return 
+        
+        # logic 
+        visited.add(source)
+        if source in graph:
+            for nextNode in graph[source]:
+                self.dfs(graph, nextNode, visited)
+
+            
