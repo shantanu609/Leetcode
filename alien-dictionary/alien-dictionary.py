@@ -1,41 +1,58 @@
-from collections import defaultdict, Counter, deque
+from collections import deque
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
-        
-        d = defaultdict(list)
-        indegree = Counter()
+        graph = {}
+        indegree = {}
         q = deque()
-        allChars = set(c for word in words for c in word)
+        output = []
         
-        for i in range(len(words)-1):
-            curr_word = words[i]
-            next_word = words[i+1]
-            
-            if len(curr_word) > len(next_word) and next_word == curr_word[ : len(next_word)]:
-                return ""
-            
-            for ch1, ch2 in zip(curr_word, next_word):
-                if ch1 != ch2:
-                    d[ch1].append(ch2)
-                    indegree[ch2] += 1 
-                    break
-        
-        for k in allChars:
-            if indegree[k] == 0:
-                q.append(k)
-        
-        res = [] 
-        
-        while q:
-            curr = q.popleft()
-            res.append(curr)
-            
-            for ch in d[curr]:
-                indegree[ch] -= 1 
+        for word in words:
+            for char in word:
+#                 if char not in graph:
+#                     graph[char] = set() 
                 
-                if indegree[ch] == 0 and ch in allChars:
-                    q.append(ch)
-    
-        output = ''.join(res)
-        return output if len(output) == len(allChars) else ""
+                if char not in indegree:
+                    indegree[char] = 0 
+        
+        for i in range(1, len(words)):
+            flag = False 
+            
+            firstWord = words[i-1]
+            secondWord = words[i]
+            
+            for j in range(min(len(firstWord), len(secondWord))):
+                
+                if firstWord[j] != secondWord[j]:
+                    flag = True 
+                    
+                    if firstWord[j] not in graph:
+                        graph[firstWord[j]] = set() 
+                    
+                    if secondWord[j] not in graph[firstWord[j]]:
+                        graph[firstWord[j]].add(secondWord[j])
+                        indegree[secondWord[j]] += 1
+                    break 
+            
+            if not flag:
+                if len(secondWord) < len(firstWord) : 
+                    return '' 
+        
+        for char, degree in indegree.items():
+            if degree == 0:
+                q.append(char)
+        
+        while q: 
+            curr = q.popleft() 
+            output.append(curr)
+            if curr in graph:
+                for nextNode in graph[curr]:
+                    indegree[nextNode] -= 1 
+                    if indegree[nextNode] == 0:
+                        q.append(nextNode)
+        
+        # print(indegree, output)
+        if len(indegree) > len(output):
+            return ''
+
+        return ''.join(output)
                     
