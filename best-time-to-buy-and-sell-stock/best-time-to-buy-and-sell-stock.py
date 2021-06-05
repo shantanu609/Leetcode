@@ -1,23 +1,14 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        """
-            [7,1,5,4,6,4]
-                       i
-             
-             min = 1
-             max = 6
-             profit = max - min = 5
-             max = min(max, profit) = min(0, 1) = 5
-         """
-        minCost = float('inf')
+        min_ = prices[0]
         profit = 0 
         
         for i in range(len(prices)):
-            if prices[i] < minCost:
-                # buy it 
-                minCost = prices[i]
-            else:
-                # sell 
-                profit = max(profit, prices[i] - minCost)
+            price = prices[i]
+            
+            min_ = min(price, min_)
+            profit = max(profit, price - min_)
         
-        return profit 
+        return profit
+        
+        
