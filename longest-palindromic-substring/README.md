@@ -1,3 +1,4 @@
+[Discussion Post (created on 5/5/2021 at 16:55)](https://leetcode.com/problems/longest-palindromic-substring/discuss/1253708/Python-with-comments)  
 <h2>5. Longest Palindromic Substring</h2><h3>Medium</h3><hr><div><p>Given a string <code>s</code>, return&nbsp;<em>the longest palindromic substring</em> in <code>s</code>.</p>
 
 <p>&nbsp;</p>
