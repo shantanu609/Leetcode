@@ -1,43 +1,34 @@
 class Solution:
-    startIndex, endIndex = None, None 
+    
+    endIndex, startIndex = None, None 
     def longestPalindrome(self, s: str) -> str:
         
-        # Initialize the global indexes 
-        self.startIndex = 0 
+        # Initialize the global variables 
         self.endIndex = 0 
+        self.startIndex = 0 
         
-        # Loop through the entire string s 
-        for i in range(len(s)):
+        # Loop through the entire string 
+        for indx in range(len(s)):
             
-            # check for odd length pallindrome 
-            self.isPalindromeHelper(s, i, i)
+            # check for odd length Pallindrome 
+            self.checkPallindrome(s, indx, indx)
             
-            # check for even legth pallindrome 
-            if i+1 < len(s) and s[i] == s[i+1]:
-                self.isPalindromeHelper(s, i, i+1)
+            # check for even length Pallindrome 
+            if indx + 1 < len(s): 
+                self.checkPallindrome(s, indx, indx + 1)
         
+        # return the result 
         return s[self.startIndex : self.endIndex + 1]
     
-    def isPalindromeHelper(self, s, left, right):
-        while left <= right:
-            
-            # check if two pointers are within bound and character matches 
-            if left >= 0 and right < len(s) and s[left] == s[right]: 
-                
-                # check if we have a longer substring then previous 
-                if left >= 0 and right < len(s) and (self.endIndex - self.startIndex) < (right - left): 
-                    
-                    # if yes, then store the result
-                    self.endIndex = right 
-                    self.startIndex = left 
-                
-                # move the left pointer backwards and right pointer forward 
-                left -= 1 
-                right += 1 
-            
-            else:
-                # if the character is not matching then dont loop further 
-                break 
+    def checkPallindrome(self, string, left, right):
         
-        
+        while left >= 0 and right < len(string) and string[left] == string[right]: 
             
+            # update the global pointers
+            if left >= 0 and right < len(string) and ((right - left) > (self.endIndex - self.startIndex)):
+                self.endIndex = right 
+                self.startIndex = left 
+            
+            left -= 1 
+            right += 1 
+    
