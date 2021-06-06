@@ -1,42 +1,46 @@
-from collections import defaultdict 
 class Solution:
-    prime = None 
-    res = None 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        self.prime = [] 
-        self.res = []
-        self.getPrime(26)
         
-        hashmap = defaultdict(list)
+        self.primes = []
+        self.getPrimes()
+        d = {}
         
         for word in strs:
-            hashVal = self.getHash(word)
-            hashmap[hashVal].append(word)
+            hashValue = self._hashFun(word)
+            if hashValue not in d: 
+                d[hashValue] = [] 
+            
+            d[hashValue].append(word)
         
-        result = []
-        for key, value in hashmap.items():
-            result.append(value)
+        output = [] 
+        for k, arr in d.items():
+            output.append(arr)
         
-        return result 
+        return output 
     
-    def getHash(self, word):
+    
+    def getPrimes(self):
+        startNum = 2 
+        
+        while len(self.primes) <= 26: 
+            
+            divide = 2 
+            
+            while divide < startNum and startNum % divide != 0:
+                divide += 1 
+            
+            if divide == startNum:
+                self.primes.append(divide)
+            
+            startNum += 1
+    
+    
+    def _hashFun(self, word):
         res = 1 
-        for ch in word:
-            res = res * self.prime[ord(ch) - ord('a')]
+        for char in word: 
+            index = ord(char) - ord('a')
+            
+            res = res * self.primes[index]
         
-        return res 
-    
-    def getPrime(self, n):
-        num = 2 
-        while len(self.prime) <= n:
-            j = 2 
-            
-            while j < num and num % j != 0:
-                j += 1
-            
-            if num == j:
-                self.prime.append(num)
+        return res
         
-            num += 1
-            
-    
