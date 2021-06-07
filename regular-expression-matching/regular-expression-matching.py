@@ -1,12 +1,18 @@
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-        if not p:
-            return not s
+        dp = [[False for _ in range(len(p) + 1)] for _ in range(len(s) + 1)]
+        dp[-1][-1] = True 
         
-        firstMatch = True if s and p[0] in {s[0], '.'} else False 
-
-        if len(p) >= 2 and p[1] == '*':
-            return self.isMatch(s, p[2:]) or (firstMatch and self.isMatch(s[1:], p))
+        for i in range(len(s), -1, -1):
+            for j in range(len(p)-1, -1, -1): 
+                
+                firstMatch = True if i < len(s) and p[j] in {s[i], '.'} else False 
+                
+                if j+1 < len(p) and p[j+1] == '*':
+                    dp[i][j] = dp[i][j+2] or (firstMatch and dp[i+1][j])
+                
+                else:
+                    dp[i][j] = firstMatch and dp[i+1][j+1]
+            
         
-        else:
-            return firstMatch and self.isMatch(s[1:], p[1:])
+        return dp[0][0]
