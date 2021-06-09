@@ -1,41 +1,38 @@
 class Solution:
     def numUniqueEmails(self, emails: List[str]) -> int:
         """
-            "alice@leetcode.com"
-            local name = alice 
-            domain = @leetcode.com
-            
-            1) periods in between chars in local name --> ignore it. 
-            2) '+' char in the local name --> ignore chars after it. 
+        ["test.email+alex@leetcode.com",
+         "test.e.mail+bob.cathy@leetcode.com",
+         "testemail+david@lee.tcode.com"
+         ]
         """
-        
         d = {} 
         for email in emails: 
-            temp = [] 
-            i = 0 
-            flag = False 
-            while i < len(email):
-                char = email[i]
-                if char  =='.' and flag == False: 
-                    i += 1 
+            j = 0 
+            substring = [] 
+            
+            while j < len(email):
+                if email[j] == '.':
+                    j += 1 
                     continue 
                 
-                if char == '+':
-                    while i < len(email) and email[i+1] != '@':
-                        i += 1 
-                    
-                    i += 1 
-                    continue
+                if email[j] == '+':
+                    while j+1 < len(email) and email[j+1] != '@':
+                        j += 1 
+                    j += 1 
+                    continue 
                 
-                if char == '@':
-                    flag = True 
-                    
-                temp.append(char)
-                i += 1 
+                if email[j] == '@':
+                    substring.append(email[j:])
+                    break 
+                
+                substring.append(email[j])
+                j += 1 
             
-            string = ''.join(temp)
+            substring = ''.join(substring)
+            if substring not in d: 
+                d[substring] = [] 
             
-            if string not in d:
-                d[string] = 1 
-    
+            d[substring].append(email)
+
         return len(d)
