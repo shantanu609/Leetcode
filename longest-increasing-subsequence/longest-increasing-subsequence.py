@@ -5,16 +5,17 @@ class Solution:
         res = 1
         
         for i in range(1, len(nums)):
-            temp = 0 
+            maxVal = 0 
             
             for j in range(0, i):
                 
-                if nums[i] > nums[j]:
-                    temp = max(temp, dp[j])
+                if nums[i] > nums[j]: 
+                    maxVal = max(maxVal, dp[j])
+                
             
-            dp[i] = temp + 1 
+            dp[i] = maxVal + 1 
             
             res = max(res, dp[i])
         
-        
         return res
+            
