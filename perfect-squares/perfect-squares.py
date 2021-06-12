@@ -1,19 +1,24 @@
-import math
 class Solution:
     def numSquares(self, n: int) -> int:
-        row = int(math.sqrt(n))
-        dp = [0 for _ in range(n+1)]
+        sq = [i*i for i in range(int(n ** (1/2)) + 1)]
         
-        for j in range(1,len(dp)):
-            dp[j] = float('inf')
+        dp = [float('inf') for _ in range(n+1)]
+        dp[0] = 0 
         
+        for i in range(1, n+1):
+            for square in sq: 
+                
+                if square > i : 
+                    break
         
-        square = [i * i for i in range(1, row+1)]
+                dp[i] = min(dp[i], dp[i - square] + 1)
         
-        for i in range(1, len(dp)):
-            for j in range(0, len(square)):
-                numSq = square[j]
-                if i >= numSq:
-                    dp[i] = min(1 + dp[i- numSq], dp[i])
-
         return dp[-1]
+                
+        
+                
+
+"""
+Example : 12
+num = [1, 4, 9] 
+"""
