@@ -11,26 +11,29 @@ class Node:
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
-            return 
+            return root 
         
-        p1 = root 
-        while p1: 
-            temp = p1 
-            p2 = p1.left 
+        node = root 
+        while node: 
+            curr = node 
+            child = node.left 
             
-            while p1 and p2:
-                if p2 == p1.left:
-                    p2.next = p1.right 
-                    p2 = p2.next 
-                else:
-                    if p2 == p1.right:
-                        if p1.next:
-                            p2.next = p1.next.left 
-                            p2 = p2.next 
-                    p1 = p1.next 
+            while curr and child: 
+                if curr.left == child: 
+                    child.next = curr.right 
+                    child = child.next 
+                
+                else: 
+                    if not curr.next: 
+                        break 
+                    
+                    if curr.right == child: 
+                        child.next = curr.next.left 
+                        child = child.next 
+                    
+                    else:
+                        curr = curr.next 
             
-            p1 = temp 
-            p1 = p1.left 
-        
-        return root
-                        
+            node = node.left 
+    
+        return root 
