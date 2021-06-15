@@ -1,29 +1,27 @@
 class Solution:
-    res = None 
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        self.res = []
-        wordDict = set(wordDict)
-        self.backtrack(s, 0, wordDict, [])
-        # print(self.res)
-        return self.res 
+        self.res = [] 
+        d = set(wordDict)
+        
+        self.backtrack(s, 0, d, [])
+        return self.res
     
-    def backtrack(self, s, indx, wordDict, temp):
+    def backtrack(self, string, indx, d, path):
         # base case 
-        if indx == len(s):
-            self.res.append(''.join(temp).rstrip())
-            return True 
+        if indx == len(string):
+            self.res.append(' '.join(path))
+            return 
         
         # logic 
-        for i in range(indx, len(s)):
-            substring = s[indx : i+1]
-            if substring in wordDict:
-                temp.append(substring)
-                temp.append(' ')
-                self.backtrack(s, i+1, wordDict, temp)
-                    # res = ''.join(temp)
-                    # # self.res.append(res)
-                    # return True 
-                temp.pop()
-                temp.pop()
-        
-        return False 
+        for i in range(indx, len(string)):
+            # action
+            word = string[indx : i + 1]
+            
+            # recurse 
+            if word in d: 
+                path.append(word)
+                self.backtrack(string, i+1, d, path)
+            
+            # backtrack
+            if path and path[-1] == word:
+                path.pop()
