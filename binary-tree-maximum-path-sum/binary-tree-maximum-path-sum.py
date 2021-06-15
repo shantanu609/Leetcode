@@ -5,8 +5,10 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    res = None 
     def maxPathSum(self, root: TreeNode) -> int:
+        if not root:
+            return 0 
+        
         self.res = float('-inf')
         self.helper(root)
         return self.res 
@@ -14,14 +16,14 @@ class Solution:
     def helper(self, root):
         # base case 
         if not root:
-            return 0
+            return 0 
         
-        # logic 
-        left_gain = max(self.helper(root.left), 0)
-        right_gain = max(self.helper(root.right), 0)
+        # Logic 
+        l = max(0, self.helper(root.left))
+        r = max(0, self.helper(root.right))
         
-        self.res = max(self.res, left_gain + right_gain + root.val)
+        total = root.val + l + r 
         
-        return root.val + max(left_gain, right_gain)
+        self.res = max(self.res, total)
         
-        
+        return root.val + max(l , r)
