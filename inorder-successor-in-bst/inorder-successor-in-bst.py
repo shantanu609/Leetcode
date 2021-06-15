@@ -7,15 +7,25 @@
 
 class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
-        succ = None 
-        node = root 
+        if not root:
+            return None 
         
-        while node :
-            if node.val > p.val:
-                succ = node 
-                node = node.left 
-            else:
-                node = node.right 
+        self.arr = [] 
+        self.inorder(root)
+        
+        for i in range(len(self.arr) - 1):
+            if self.arr[i].val == p.val: 
+                return self.arr[i+1]
+        
+        return None 
+    
+    def inorder(self, root):
+        # base case 
+        
+        
+        # logic 
+        if root:
+            self.inorder(root.left)
+            self.arr.append(root)
+            self.inorder(root.right)
             
-        
-        return succ
