@@ -1,51 +1,62 @@
 from collections import deque
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        d = {}
-        for word in wordList:
-            d[word] = 1 
-        
-        if endWord not in d: 
+        # edge cases 
+        if beginWord == endWord:
             return 0 
         
+        # initialize DS 
+        visited = set() 
         q = deque([beginWord])
+        wordList = set(wordList)
         result = 0 
+        
+        if endWord not in wordList:
+            return 0 
         
         while q: 
             size = len(q)
             result += 1 
             for _ in range(size):
-                curr = q.popleft() 
                 
-                similarWords = self.helper(curr, d)
+                curr = q.popleft()  
+                visited.add(curr)
                 
-                for word in similarWords: 
-                    if word  == endWord:
-                        return result + 1 
-                    
-                    if word in d:
-                        q.append(word)
-                        d.pop(word)
+                if curr == endWord: 
+                    return result 
+                
+                self.helper(curr, wordList, q, visited)
         
-        return 0
-                
-        
-        return result 
+        return 0 
     
-    def helper(self, word, d):
-        wordCollection = set()
+    
+    def helper(self, word, wordList, q, visited):
         word = list(word)
         for i in range(len(word)):
-            ch = word[i]
-            
-            for j in range(97, 97 + 26 + 1):
-                word[i] = chr(j)
+            originalChar = word[i]
+            for j in range(97, 97+26):
+                
+                char = chr(j)
+                word[i] = char 
+                
                 newWord = ''.join(word)
-                if newWord in d: 
-                    wordCollection.add(''.join(word))
+                # print(newWord)
+                if newWord in wordList and newWord not in visited: 
+                    q.append(newWord)
             
-            word[i] = ch 
-        
-        return wordCollection
-            
-        
+            word[i] = originalChar
+
+"""
+    beginWord = "hit", 
+    endWord = "cog", 
+    wordList = ["hot","dot","dog","lot","log","cog", "hat"]
+    
+    count = 1 
+                  i 
+    begin word = "hit" -> "hot" ->
+                       -> "hat"
+    
+Approach 1) Brute Froce = O(n ^ 26)
+Approach 2) Trie -   
+Approach 3) BFS 
+"""
