@@ -1,21 +1,22 @@
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        dp = [0 for _ in range(len(nums))]
-        dp[0] = 1 
-        res = 1
+        dp = [1 for _ in range(len(nums))]
+        res = 1 
         
-        for i in range(1, len(nums)):
-            maxVal = 0 
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
             
-            for j in range(0, i):
-                
-                if nums[i] > nums[j]: 
-                    maxVal = max(maxVal, dp[j])
-                
-            
-            dp[i] = maxVal + 1 
-            
-            res = max(res, dp[i])
+            res = max(res, dp[i]) 
         
         return res
-            
+                
+
+"""
+        [10,9,2,5,3,7,101,18]
+         
+         [2,3,7,101]
+         [2,3,7,18]
+         
+"""
