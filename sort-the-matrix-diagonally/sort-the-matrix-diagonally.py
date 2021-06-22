@@ -1,32 +1,52 @@
+import heapq
 class Solution:
     def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
-        """
-            [[3,3,1,1],
-             [2,2,1,2],
-             [1,1,1,2]]
-        """
-        for col in range(len(mat[0])):
-            self.helper(mat, 0, col)
+        pq = [] 
+        # First column row wise 
+        i = j = 0 
         
-        for row in range(1, len(mat)):
-            self.helper(mat, row, 0)
+        while i < len(mat): 
+            j = 0 
+            row = i 
             
-        return mat 
-
-    def helper(self, mat, row, col):
-        temp = []
-        r, c = row, col
-        
-        while r < len(mat) and c < len(mat[0]):
-            temp.append(mat[r][c])
-            r += 1 
-            c += 1 
-        
-        temp.sort()
+            while i < len(mat) and j < len(mat[0]): 
+                heapq.heappush(pq, mat[i][j])
+                i += 1 
+                j += 1 
+            
+            i = row 
+            j = 0 
+            
+            while j < len(mat[0]) and i < len(mat): 
+                mat[i][j] = heapq.heappop(pq)
+                i += 1 
+                j += 1 
+            
+            i = row 
+            i += 1 
+    
         i = 0 
-        r, c = row, col
-        while r < len(mat) and c < len(mat[0]):
-            mat[r][c] = temp[i]
-            r += 1 
-            c += 1 
-            i += 1
+        j = 1 
+        
+        while j < len(mat[0]): 
+            col = j 
+            i = 0 
+            
+            while i < len(mat) and j < len(mat[0]): 
+                heapq.heappush(pq, mat[i][j])
+                i += 1 
+                j += 1 
+            
+            i = 0 
+            j = col 
+            
+            while i < len(mat) and j < len(mat[0]): 
+                mat[i][j] = heapq.heappop(pq)
+                i += 1 
+                j += 1 
+            
+            j = col
+            j += 1 
+        
+        return mat
+        
