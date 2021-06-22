@@ -1,3 +1,4 @@
+[Discussion Post (created on 22/5/2021 at 14:7)](https://leetcode.com/problems/sort-the-matrix-diagonally/discuss/1290820/Python-Heap-%3A-Old-school-while-loops)  
 <h2>1329. Sort the Matrix Diagonally</h2><h3>Medium</h3><hr><div><p>A <strong>matrix diagonal</strong> is a diagonal line of cells starting from some cell in either the topmost row or leftmost column and going in the bottom-right direction until reaching the matrix's end. For example, the <strong>matrix diagonal</strong> starting from <code>mat[2][0]</code>, where <code>mat</code> is a <code>6 x 3</code> matrix, includes cells <code>mat[2][0]</code>, <code>mat[3][1]</code>, and <code>mat[4][2]</code>.</p>
 
 <p>Given an <code>m x n</code> matrix <code>mat</code> of integers, sort each <strong>matrix diagonal</strong> in ascending order and return <em>the resulting matrix</em>.</p>
