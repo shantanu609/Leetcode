@@ -3,10 +3,9 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        p1 = 0 
+        indx = 0 
         for i in range(len(nums)):
-            nums[i], nums[p1] = nums[p1], nums[i]
-            if nums[p1] != 0:
-                p1 += 1 
-        
-        
+            if nums[i] != 0: 
+                nums[indx], nums[i] = nums[i], nums[indx]
+                indx += 1 
+            
