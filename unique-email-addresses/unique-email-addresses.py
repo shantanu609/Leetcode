@@ -1,38 +1,42 @@
 class Solution:
     def numUniqueEmails(self, emails: List[str]) -> int:
         """
-        ["test.email+alex@leetcode.com",
-         "test.e.mail+bob.cathy@leetcode.com",
-         "testemail+david@lee.tcode.com"
-         ]
+        Rules: 
+        1) '.' ignore dot in local name
+        2) '+' in local name -> ignore everything after + 
+        
+        Time = O(n x m)
+        Space = O(m)
         """
-        d = {} 
+        
+        uniqueEmails = set()
+        
         for email in emails: 
-            j = 0 
-            substring = [] 
+            domain = ''
+            localName = []
+            flag = False 
             
-            while j < len(email):
-                if email[j] == '.':
-                    j += 1 
-                    continue 
+            for indx in range(len(email)):
                 
-                if email[j] == '+':
-                    while j+1 < len(email) and email[j+1] != '@':
-                        j += 1 
-                    j += 1 
-                    continue 
-                
-                if email[j] == '@':
-                    substring.append(email[j:])
+                if email[indx] == '@':
+                    domain = email[indx: ]
                     break 
+                    
+                if flag == True:
+                    continue 
                 
-                substring.append(email[j])
-                j += 1 
+                if email[indx] == '.':
+                    continue 
+                
+                if email[indx] == '+':
+                    flag = True 
+                    continue 
+                
+                localName.append(email[indx])
             
-            substring = ''.join(substring)
-            if substring not in d: 
-                d[substring] = [] 
+            email = ''.join(localName) + domain 
             
-            d[substring].append(email)
-
-        return len(d)
+            if email not in uniqueEmails: 
+                uniqueEmails.add(email)
+        
+        return len(uniqueEmails)
