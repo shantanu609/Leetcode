@@ -5,23 +5,30 @@
 #         self.next = next
 class Solution:
     def oddEvenList(self, head: ListNode) -> ListNode:
-        if not head or not head.next or not head.next.next:
+        if not head or not head.next:
             return head 
-        odd = node1 = head 
-        even = node2 = head.next 
         
-        while node1 and node1.next or node2 and node2.next:
-            node1.next = node1.next.next 
-            node1 = node1.next 
-            if node2.next :
-                node2.next = node2.next.next 
-                node2 = node2.next 
+        odd = head 
+        even = head.next 
+        l1 = odd 
+        l2 = even 
         
-        while odd and odd.next: 
-            odd = odd.next 
+        while l1.next and l2.next: 
+            l1.next = l2.next 
+            l2.next = l2.next.next 
+            l1 = l1.next 
+            l2 = l2.next 
         
-        odd.next = even 
-    
-        return head
+        if l1: 
+            l1.next = even 
+            return odd 
         
+        else: 
+            l1 = odd 
+            while l1.next: 
+                l1 = l1.next 
+            
+            l1.next = even 
         
+            return odd
+            
