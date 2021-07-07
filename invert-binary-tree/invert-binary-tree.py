@@ -4,25 +4,26 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
     def invertTree(self, root: TreeNode) -> TreeNode:
         if not root:
             return root 
         
-        self.helper(root)
-        return root 
-    
-    
-    def helper(self, root):
-        # base case 
-        if not root:
-            return 
+        q = deque()
+        node = root 
+        q.append(node)
         
-        # logic 
-        left = self.helper(root.left)
-        right = self.helper(root.right)
-        
-        root.left = right 
-        root.right = left 
+        while q: 
+            curr = q.popleft() 
+            
+            curr.left, curr.right = curr.right, curr.left 
+            
+            if curr.left: 
+                q.append(curr.left)
+            
+            if curr.right:
+                q.append(curr.right)
+
         
         return root 
