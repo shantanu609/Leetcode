@@ -1,34 +1,23 @@
 class Solution:
-    
-    endIndex, startIndex = None, None 
     def longestPalindrome(self, s: str) -> str:
+        self.res = float('-inf')
+        self.string = ''
+        for i in range(len(s)):
+            self.helper(s, i, i)
+            self.helper(s, i, i+1)
         
-        # Initialize the global variables 
-        self.endIndex = 0 
-        self.startIndex = 0 
-        
-        # Loop through the entire string 
-        for indx in range(len(s)):
-            
-            # check for odd length Pallindrome 
-            self.checkPallindrome(s, indx, indx)
-            
-            # check for even length Pallindrome 
-            if indx + 1 < len(s): 
-                self.checkPallindrome(s, indx, indx + 1)
-        
-        # return the result 
-        return s[self.startIndex : self.endIndex + 1]
+        return self.string 
     
-    def checkPallindrome(self, string, left, right):
+    def helper(self, string, left, right): 
         
-        while left >= 0 and right < len(string) and string[left] == string[right]: 
+        while left >= 0 and right < len(string):
+            if string[left] == string[right]:
+                if self.res <= right - left + 1: 
+                    self.res = right - left + 1 
+                    self.string = string[left : right + 1]
+                left -= 1 
+                right += 1 
+            else:
+                break 
             
-            # update the global pointers
-            if left >= 0 and right < len(string) and ((right - left) > (self.endIndex - self.startIndex)):
-                self.endIndex = right 
-                self.startIndex = left 
-            
-            left -= 1 
-            right += 1 
-    
+        
